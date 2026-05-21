@@ -97,26 +97,26 @@ function Dashboard() {
       </div>
 
       <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
-        <StatCard 
-          icon={Activity} 
-          title="Ongoing Jobs" 
-          value={stats.ongoingJobs} 
-          color="var(--color-primary)" 
-          subtitle="Currently in progress" 
+        <StatCard
+          icon={Activity}
+          title="Ongoing Jobs"
+          value={stats.ongoingJobs}
+          color="var(--color-primary)"
+          subtitle="Currently in progress"
         />
-        <StatCard 
-          icon={CheckCircle} 
-          title="Completed Jobs" 
-          value={stats.completedJobs} 
-          color="var(--color-success)" 
-          subtitle="Fully completed" 
+        <StatCard
+          icon={CheckCircle}
+          title="Completed Jobs"
+          value={stats.completedJobs}
+          color="var(--color-success)"
+          subtitle="Fully completed"
         />
-        <StatCard 
-          icon={UsersIcon} 
-          title="Active Analysts" 
-          value={stats.activeAnalysts} 
-          color="#8B5CF6" 
-          subtitle="Currently working on jobs" 
+        <StatCard
+          icon={UsersIcon}
+          title="Active Analysts"
+          value={stats.activeAnalysts}
+          color="#8B5CF6"
+          subtitle="Currently working on jobs"
         />
       </div>
 
@@ -166,12 +166,12 @@ function Dashboard() {
 function UserSection({ title, users, isLoading, onEdit, onDelete, userToDelete, setUserToDelete, onConfirmDelete }) {
   return (
     <div style={{ marginBottom: '2.5rem' }}>
-      <h3 style={{ 
-        marginBottom: '1rem', 
-        color: 'var(--color-text-main)', 
-        display: 'flex', 
-        alignItems: 'center', 
-        gap: '0.5rem' 
+      <h3 style={{
+        marginBottom: '1rem',
+        color: 'var(--color-text-main)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem'
       }}>
         <div style={{ width: '4px', height: '1.5rem', backgroundColor: 'var(--color-primary)', borderRadius: 'var(--radius-full)' }}></div>
         {title}
@@ -205,8 +205,8 @@ function UserSection({ title, users, isLoading, onEdit, onDelete, userToDelete, 
                       </div>
                     ) : (
                       <>
-                        <button onClick={() => onEdit(u)} style={{ background: 'none', border: 'none', color: 'var(--color-primary)', cursor: 'pointer', marginRight: '1rem' }}><Edit size={18}/></button>
-                        <button onClick={() => setUserToDelete(u)} style={{ background: 'none', border: 'none', color: 'var(--color-danger)', cursor: 'pointer' }}><Trash2 size={18}/></button>
+                        <button onClick={() => onEdit(u)} style={{ background: 'none', border: 'none', color: 'var(--color-primary)', cursor: 'pointer', marginRight: '1rem' }}><Edit size={18} /></button>
+                        <button onClick={() => setUserToDelete(u)} style={{ background: 'none', border: 'none', color: 'var(--color-danger)', cursor: 'pointer' }}><Trash2 size={18} /></button>
                       </>
                     )}
                   </td>
@@ -295,21 +295,21 @@ function UsersPage() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
         <h1>User Management</h1>
-        <button className="btn btn-primary" onClick={() => { setShowForm(!showForm); if(showForm) setEditUserId(null); }}>
+        <button className="btn btn-primary" onClick={() => { setShowForm(!showForm); if (showForm) setEditUserId(null); }}>
           {showForm ? 'Close Form' : '+ Create User'}
         </button>
       </div>
 
       {error && <div style={{ marginBottom: '1rem', color: 'var(--color-danger)', backgroundColor: 'var(--color-danger-light)', padding: '1rem', borderRadius: 'var(--radius-md)' }}>{error}</div>}
       {success && (
-        <div style={{ 
-          position: 'fixed', 
-          top: '6rem', 
-          right: '2rem', 
+        <div style={{
+          position: 'fixed',
+          top: '6rem',
+          right: '2rem',
           zIndex: 1000,
-          color: 'white', 
-          backgroundColor: 'var(--color-success)', 
-          padding: '1rem 1.5rem', 
+          color: 'white',
+          backgroundColor: 'var(--color-success)',
+          padding: '1rem 1.5rem',
           borderRadius: 'var(--radius-md)',
           boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
           display: 'flex',
@@ -333,24 +333,24 @@ function UsersPage() {
               </div>
               <div style={{ flex: 1 }}>
                 <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '0.4rem', fontWeight: 500 }}>Email Address</label>
-                <input type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required />
+                <input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} required />
               </div>
             </div>
             <div style={{ display: 'flex', gap: '1rem' }}>
               <div style={{ flex: 1 }}>
                 <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '0.4rem', fontWeight: 500 }}>Phone Number</label>
-                <input type="text" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} required />
+                <input type="text" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} required />
               </div>
               <div style={{ flex: 1 }}>
                 <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '0.4rem', fontWeight: 500 }}>Role</label>
-                <select value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} required>
+                <select value={formData.role} onChange={e => setFormData({ ...formData, role: e.target.value })} required>
                   <option value="HEAD">Department Head</option>
                   <option value="ASSISTANT">Lab Assistant</option>
                 </select>
               </div>
               <div style={{ flex: 1 }}>
                 <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '0.4rem', fontWeight: 500 }}>Department</label>
-                <select value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})} required>
+                <select value={formData.department} onChange={e => setFormData({ ...formData, department: e.target.value })} required>
                   <option value="Micro">Micro</option>
                   <option value="Chemical">Chemical</option>
                 </select>
@@ -360,7 +360,7 @@ function UsersPage() {
               <div style={{ display: 'flex', gap: '1rem' }}>
                 <div style={{ flex: 1 }}>
                   <label style={{ display: 'block', fontSize: '0.9rem', marginBottom: '0.4rem', fontWeight: 500 }}>Password (Auto-generated)</label>
-                  <input type="text" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} required />
+                  <input type="text" value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} required />
                 </div>
               </div>
             )}
@@ -371,24 +371,24 @@ function UsersPage() {
         </div>
       )}
 
-      <UserSection 
-        title="Department Heads" 
+      <UserSection
+        title="Department Heads"
         users={headUsers}
         isLoading={usersLoading}
-        onEdit={handleEdit} 
-        onConfirmDelete={confirmDelete} 
-        userToDelete={userToDelete} 
-        setUserToDelete={setUserToDelete} 
+        onEdit={handleEdit}
+        onConfirmDelete={confirmDelete}
+        userToDelete={userToDelete}
+        setUserToDelete={setUserToDelete}
       />
 
-      <UserSection 
-        title="Lab Assistants" 
+      <UserSection
+        title="Lab Assistants"
         users={assistantUsers}
         isLoading={usersLoading}
-        onEdit={handleEdit} 
-        onConfirmDelete={confirmDelete} 
-        userToDelete={userToDelete} 
-        setUserToDelete={setUserToDelete} 
+        onEdit={handleEdit}
+        onConfirmDelete={confirmDelete}
+        userToDelete={userToDelete}
+        setUserToDelete={setUserToDelete}
       />
     </div>
   );
@@ -419,6 +419,21 @@ function buildJobCodePreview(serial) {
   return `${yy}${mm}${dd}${nn}`;
 }
 
+// Standard unit options for each department type
+const MICRO_UNITS = [
+  'CFU/g', 'CFU/ml',
+  'Present per g', 'Present per 5 g', 'Present per 10 g', 'Present per 25 g',
+  'Present per ml', 'Present per 5 ml', 'Present per 10 ml', 'Present per 25 ml', 'Present per 100 ml', 'Present per 250 ml',
+  'Absent per g', 'Absent per 5 g', 'Absent per 10 g', 'Absent per 25 g',
+  'Absent per ml', 'Absent per 5 ml', 'Absent per 10 ml', 'Absent per 25 ml', 'Absent per 100 ml', 'Absent per 250 ml',
+];
+
+const CHEMICAL_UNITS = [
+  '%', 'mg/L', 'mg/kg', 'mg/100g', 'g/100g', 'µg/kg', 'µg/100g',
+  'mg KOH/g', 'mEq O₂/kg', 'g I₂/100g', 'kcal/100g',
+  'pH units', 'Aw', '°Bx', 'ppm',
+];
+
 function Jobs() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -436,7 +451,7 @@ function Jobs() {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedParams, setSelectedParams] = useState([]);
   const [showAddParam, setShowAddParam] = useState(false);
-  const [newParam, setNewParam] = useState({ name: '', type: 'Micro', unit: 'mg/L' });
+  const [newParam, setNewParam] = useState({ name: '', type: 'Micro', unit: '' });
   const [sampleFlowType, setSampleFlowType] = useState('PARALLEL');
   const [firstDepartment, setFirstDepartment] = useState('micro');
   const [transferDeadline, setTransferDeadline] = useState('');
@@ -475,6 +490,10 @@ function Jobs() {
     setSelectedParams(selectedParams.filter((_, i) => i !== index));
   };
 
+  const updateParamUnit = (index, newUnit) => {
+    setSelectedParams(prev => prev.map((p, i) => i === index ? { ...p, unit: newUnit } : p));
+  };
+
   const handleDeleteParam = async (e, param) => {
     e.stopPropagation(); // Don't trigger the row click (add)
     if (!window.confirm(`Delete "${param.name}" from the parameter library permanently?`)) return;
@@ -504,7 +523,7 @@ function Jobs() {
       const res = await axios.get('http://localhost:5000/api/users');
       const allHeads = res.data.filter(u => u.role === 'HEAD');
       setHeads(allHeads);
-      
+
       // Auto-select defaults
       const micro = allHeads.filter(h => h.department === 'Micro');
       if (micro.length > 0) setAssignedMicroHead(micro[0]._id);
@@ -523,9 +542,9 @@ function Jobs() {
     } catch (err) { console.error('Could not fetch next sample ID', err); }
   };
 
-  useEffect(() => { 
-    fetchJobs(); 
-    fetchNextSerial(); 
+  useEffect(() => {
+    fetchJobs();
+    fetchNextSerial();
     fetchHeads();
   }, []);
 
@@ -614,6 +633,12 @@ function Jobs() {
       alert('Reason for reopening is required');
       return;
     }
+    // Validate that all selected parameters have a unit assigned
+    const missingUnit = selectedParams.find(p => !p.unit || !p.unit.trim());
+    if (missingUnit) {
+      alert(`Please select a unit for parameter "${missingUnit.name}"`);
+      return;
+    }
 
     const { received_date_dd, received_date_mm, received_date_yyyy } = formData;
     const dInt = parseInt(received_date_dd, 10);
@@ -621,8 +646,8 @@ function Jobs() {
     const yInt = parseInt(received_date_yyyy, 10);
     const dateObj = new Date(yInt, mInt - 1, dInt);
     if (dateObj.getFullYear() !== yInt || dateObj.getMonth() !== mInt - 1 || dateObj.getDate() !== dInt) {
-       alert("Please enter a strictly valid Received Date.");
-       return;
+      alert("Please enter a strictly valid Received Date.");
+      return;
     }
 
     // If all valid, show confirmation modal
@@ -633,14 +658,14 @@ function Jobs() {
     if (isSubmitting) return;
     setIsSubmitting(true);
     setShowConfirmModal(false);
-    
+
     try {
       const { received_date_dd, received_date_mm, received_date_yyyy } = formData;
       const yInt = parseInt(received_date_yyyy, 10);
       const mInt = parseInt(received_date_mm, 10);
       const dInt = parseInt(received_date_dd, 10);
       const parsedDate = `${yInt}-${String(mInt).padStart(2, '0')}-${String(dInt).padStart(2, '0')}`;
-      
+
       const parameters = selectedParams.map(p => ({
         parameterId: p._id,
         name: p.name,
@@ -743,10 +768,10 @@ function Jobs() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
         <h1 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Activity size={28} style={{ color: 'var(--color-primary)' }}/> 
+          <Activity size={28} style={{ color: 'var(--color-primary)' }} />
           {editingJobId ? 'Edit Job' : (reopenParentId ? 'Retest / Reopen Job' : 'Job Distributor')}
         </h1>
-        <button className="btn btn-primary" onClick={() => { 
+        <button className="btn btn-primary" onClick={() => {
           if (!showForm) {
             // Pre-select first heads when opening
             const micro = heads.filter(h => h.department === 'Micro');
@@ -754,8 +779,8 @@ function Jobs() {
             const chemical = heads.filter(h => h.department === 'Chemical');
             if (chemical.length > 0) setAssignedChemicalHead(chemical[0]._id);
           }
-          setShowForm(!showForm); 
-          if(showForm) {
+          setShowForm(!showForm);
+          if (showForm) {
             setReopenParentId(null);
             setEditingJobId(null);
             setAssignedMicroHead('');
@@ -775,12 +800,12 @@ function Jobs() {
             {reopenParentId && (
               <div style={{ padding: '1rem', backgroundColor: '#fffbeb', border: '1px solid #fcd34d', borderRadius: 'var(--radius-md)', marginBottom: '1rem', width: '100%' }}>
                 <label style={{ display: 'block', fontWeight: 600, color: '#b45309', marginBottom: '0.5rem' }}>Reason for Reopening / Retest <span style={{ color: 'red' }}>*</span></label>
-                <textarea 
-                  value={formData.reopenReason} 
-                  onChange={e => setField('reopenReason', e.target.value)} 
-                  required 
-                  placeholder="Explain why this job is being retested..." 
-                  style={{ width: '100%', resize: 'vertical', minHeight: '60px', borderColor: '#fcd34d' }} 
+                <textarea
+                  value={formData.reopenReason}
+                  onChange={e => setField('reopenReason', e.target.value)}
+                  required
+                  placeholder="Explain why this job is being retested..."
+                  style={{ width: '100%', resize: 'vertical', minHeight: '60px', borderColor: '#fcd34d' }}
                 />
               </div>
             )}
@@ -794,25 +819,25 @@ function Jobs() {
               </div>
             )}
           </div>
-          <form 
-            onSubmit={handleSubmit} 
-            onKeyDown={(e) => { if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') e.preventDefault(); }} 
+          <form
+            onSubmit={handleSubmit}
+            onKeyDown={(e) => { if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') e.preventDefault(); }}
             style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
           >
             {/* ── CUSTOMER INFORMATION ── */}
             <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
               <div onClick={() => toggleSection('customer')} style={{ padding: '1rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', backgroundColor: sections.customer ? 'var(--color-surface-hover)' : 'transparent' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  {sections.customer ? <ChevronDown size={18}/> : <ChevronRight size={18}/>}
+                  {sections.customer ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
                   <span style={{ fontWeight: 600 }}>Customer Information</span>
                 </div>
                 <span className="badge badge-primary" style={{ fontSize: '0.75rem' }}>Required</span>
               </div>
               {sections.customer && (
                 <div style={{ padding: '1.5rem', borderTop: '1px solid var(--color-border)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Customer Name <span style={{color:'var(--color-danger)'}}>*</span></label><input value={formData.customer_name} onChange={e => setField('customer_name', e.target.value)} required /></div>
-                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Mobile Number <span style={{color:'var(--color-danger)'}}>*</span></label><input type="tel" inputMode="numeric" maxLength={10} pattern="[0-9]{10}" title="Enter exactly 10 digits" value={formData.mobile_number} onChange={e => setField('mobile_number', e.target.value.replace(/[^0-9]/g, '').slice(0, 10))} required /></div>
-                  <div style={{ gridColumn: '1 / -1' }}><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Customer Address <span style={{color:'var(--color-danger)'}}>*</span></label><input type="text" value={formData.customer_address} onChange={e => setField('customer_address', e.target.value)} required style={{ width: '100%' }} /></div>
+                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Customer Name <span style={{ color: 'var(--color-danger)' }}>*</span></label><input value={formData.customer_name} onChange={e => setField('customer_name', e.target.value)} required /></div>
+                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Mobile Number <span style={{ color: 'var(--color-danger)' }}>*</span></label><input type="tel" inputMode="numeric" maxLength={10} pattern="[0-9]{10}" title="Enter exactly 10 digits" value={formData.mobile_number} onChange={e => setField('mobile_number', e.target.value.replace(/[^0-9]/g, '').slice(0, 10))} required /></div>
+                  <div style={{ gridColumn: '1 / -1' }}><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Customer Address <span style={{ color: 'var(--color-danger)' }}>*</span></label><input type="text" value={formData.customer_address} onChange={e => setField('customer_address', e.target.value)} required style={{ width: '100%' }} /></div>
                   <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Contact Person</label><input value={formData.contact_person} onChange={e => setField('contact_person', e.target.value)} /></div>
                   <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Email</label><input type="email" value={formData.email} onChange={e => setField('email', e.target.value)} /></div>
                   <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Customer Reference No.</label><input inputMode="numeric" pattern="[0-9]*" title="Numbers only" value={formData.customer_reference_no} onChange={e => setField('customer_reference_no', e.target.value.replace(/[^0-9]/g, ''))} /></div>
@@ -824,16 +849,16 @@ function Jobs() {
             <div className="card" style={{ padding: 0, overflow: 'visible' }}>
               <div onClick={() => toggleSection('sample')} style={{ padding: '1rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', backgroundColor: sections.sample ? 'var(--color-surface-hover)' : 'transparent', borderTopLeftRadius: 'inherit', borderTopRightRadius: 'inherit' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  {sections.sample ? <ChevronDown size={18}/> : <ChevronRight size={18}/>}
+                  {sections.sample ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
                   <span style={{ fontWeight: 600 }}>Sample Information</span>
                 </div>
                 <span className="badge badge-primary" style={{ fontSize: '0.75rem' }}>Required</span>
               </div>
               {sections.sample && (
                 <div style={{ padding: '1.5rem', borderTop: '1px solid var(--color-border)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Sample Name <span style={{color:'var(--color-danger)'}}>*</span></label><input value={formData.sample_name} onChange={e => setField('sample_name', e.target.value)} required /></div>
+                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Sample Name <span style={{ color: 'var(--color-danger)' }}>*</span></label><input value={formData.sample_name} onChange={e => setField('sample_name', e.target.value)} required /></div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Sample ID <span style={{color:'var(--color-text-muted)', fontSize:'0.8rem'}}>(auto-assigned)</span></label>
+                    <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Sample ID <span style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>(auto-assigned)</span></label>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <input
                         value={formData.sample_id || (nextSerial ? nextSerial.padded : '')}
@@ -842,16 +867,16 @@ function Jobs() {
                       />
                     </div>
                   </div>
-                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Sample Quantity <span style={{color:'var(--color-danger)'}}>*</span></label>
+                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Sample Quantity <span style={{ color: 'var(--color-danger)' }}>*</span></label>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                       <input type="number" step="0.01" min="0" value={formData.sample_quantity} onChange={e => setField('sample_quantity', e.target.value)} required style={{ flex: 1 }} />
                       <input type="text" placeholder="Unit" value={formData.sample_quantity_unit} onChange={e => setField('sample_quantity_unit', e.target.value)} required style={{ width: '90px' }} />
                     </div>
                   </div>
-                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Sample Count <span style={{color:'var(--color-danger)'}}>*</span></label>
+                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Sample Count <span style={{ color: 'var(--color-danger)' }}>*</span></label>
                     <input type="number" min="1" step="1" value={formData.sample_count} onChange={e => { const v = e.target.value; if (v === '' || parseInt(v) >= 1) setField('sample_count', v); }} required style={{ width: '100%' }} placeholder="No. of samples received" />
                   </div>
-                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Received Date <span style={{color:'var(--color-danger)'}}>*</span></label>
+                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Received Date <span style={{ color: 'var(--color-danger)' }}>*</span></label>
                     <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                       <input type="text" placeholder="DD" maxLength="2" pattern="(0?[1-9]|[12][0-9]|3[01])" value={formData.received_date_dd} onChange={e => setField('received_date_dd', e.target.value.replace(/\D/g, ''))} required style={{ width: '3.5rem', textAlign: 'center' }} />
                       <span style={{ fontWeight: 500, color: 'var(--color-text-muted)' }}>/</span>
@@ -860,7 +885,7 @@ function Jobs() {
                       <input type="text" placeholder="YYYY" maxLength="4" pattern="\d{4}" value={formData.received_date_yyyy} onChange={e => setField('received_date_yyyy', e.target.value.replace(/\D/g, ''))} required style={{ width: '4.5rem', textAlign: 'center' }} />
                       <div style={{ position: 'relative', width: '2.8rem', height: '2.4rem', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--color-surface-hover)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', cursor: 'pointer' }}>
                         <Calendar size={18} color="var(--color-text-muted)" />
-                        <input 
+                        <input
                           type="date"
                           onChange={e => {
                             if (!e.target.value) return;
@@ -874,8 +899,8 @@ function Jobs() {
                       </div>
                     </div>
                   </div>
-                  <div style={{ gridColumn: '1 / -1' }}><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Sample Description <span style={{color:'var(--color-danger)'}}>*</span></label><input type="text" value={formData.sample_description} onChange={e => setField('sample_description', e.target.value)} required style={{ width: '100%' }} /></div>
-                  <div style={{ gridColumn: '1 / -1' }}><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Condition on Receipt <span style={{color:'var(--color-danger)'}}>*</span></label>
+                  <div style={{ gridColumn: '1 / -1' }}><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Sample Description <span style={{ color: 'var(--color-danger)' }}>*</span></label><input type="text" value={formData.sample_description} onChange={e => setField('sample_description', e.target.value)} required style={{ width: '100%' }} /></div>
+                  <div style={{ gridColumn: '1 / -1' }}><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Condition on Receipt <span style={{ color: 'var(--color-danger)' }}>*</span></label>
                     <select value={formData.condition_on_receipt} onChange={e => setField('condition_on_receipt', e.target.value)} required style={{ width: '100%' }}>
                       <option value="">Select...</option>
                       <option value="Satisfactory">Satisfactory</option>
@@ -891,7 +916,7 @@ function Jobs() {
                       <option>Courier</option><option>Hand Delivery</option><option>Post</option><option>Other</option>
                     </select>
                   </div>
-                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>NABL Type <span style={{color:'var(--color-danger)'}}>*</span></label>
+                  <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>NABL Type <span style={{ color: 'var(--color-danger)' }}>*</span></label>
                     <select value={formData.nabl_type} onChange={e => setField('nabl_type', e.target.value)} required>
                       <option value="">Select...</option>
                       <option value="Non Nabl">Non Nabl</option>
@@ -899,15 +924,15 @@ function Jobs() {
                     </select>
                   </div>
                   {formData.nabl_type === 'Nabl' && (
-                    <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>ULR <span style={{color:'var(--color-danger)'}}>*</span></label><input value={formData.ulr_no} onChange={e => setField('ulr_no', e.target.value)} required /></div>
+                    <div><label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>ULR <span style={{ color: 'var(--color-danger)' }}>*</span></label><input value={formData.ulr_no} onChange={e => setField('ulr_no', e.target.value)} required /></div>
                   )}
                   <div style={{ gridColumn: '1 / -1' }}>
-                    <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Search & Add Test Parameters <span style={{color:'var(--color-danger)'}}>*</span></label>
+                    <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 500, fontSize: '0.9rem' }}>Search & Add Test Parameters <span style={{ color: 'var(--color-danger)' }}>*</span></label>
                     {!editingJobId ? (
                       <div style={{ position: 'relative', marginBottom: '1rem' }}>
-                        <input 
-                          placeholder="Type to search (e.g. Moisture, Salmonella...)" 
-                          value={searchTerm} 
+                        <input
+                          placeholder="Type to search (e.g. Moisture, Salmonella...)"
+                          value={searchTerm}
                           onChange={e => setSearchTerm(e.target.value)}
                           style={{ width: '100%' }}
                         />
@@ -917,7 +942,7 @@ function Jobs() {
                               <div key={p._id} style={{ padding: '0.75rem 1rem', cursor: 'pointer', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div onClick={() => handleAddExistingParam(p)} style={{ flex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                   <span>{p.name}</span>
-                                  <span style={{ fontSize: '0.8rem', color: p.type === 'Micro' ? 'var(--color-success)' : 'var(--color-info)' }}>{p.type} · {p.unit}</span>
+                                  <span style={{ fontSize: '0.8rem', color: p.type === 'Micro' ? 'var(--color-success)' : 'var(--color-info)' }}>{p.type}</span>
                                 </div>
                                 <button
                                   type="button"
@@ -948,15 +973,32 @@ function Jobs() {
 
                     {/* New param form */}
                     {showAddParam && (
-                      <div style={{ padding: '1rem', border: '1px dashed var(--color-primary)', borderRadius: 'var(--radius-md)', maxWidth: '500px', marginBottom: '1.5rem' }}>
+                      <div style={{ padding: '1rem', border: '1px dashed var(--color-primary)', borderRadius: 'var(--radius-md)', maxWidth: '600px', marginBottom: '1.5rem' }}>
                         <h4 style={{ marginBottom: '1rem', fontSize: '0.9rem' }}>Add New Parameter to Library</h4>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
                           <input style={{ flex: '1 1 200px' }} type="text" value={newParam.name} onChange={e => setNewParam({ ...newParam, name: e.target.value })} placeholder="Parameter Name" required />
-                          <select style={{ flex: '1 1 100px' }} value={newParam.type} onChange={e => setNewParam({ ...newParam, type: e.target.value })}>
+                          <select style={{ flex: '1 1 100px' }} value={newParam.type} onChange={e => setNewParam({ ...newParam, type: e.target.value, unit: '' })}>
                             <option value="Micro">Micro</option>
                             <option value="Chemical">Chemical</option>
                           </select>
-                          <input style={{ flex: '1 1 100px' }} type="text" value={newParam.unit} onChange={e => setNewParam({ ...newParam, unit: e.target.value })} placeholder="Unit" required />
+                          <select
+                            style={{ flex: '1 1 150px' }}
+                            value={(newParam.type === 'Micro' ? MICRO_UNITS : CHEMICAL_UNITS).includes(newParam.unit) ? newParam.unit : (newParam.unit ? '__custom__' : '')}
+                            onChange={e => {
+                              if (e.target.value === '__custom__') {
+                                setNewParam({ ...newParam, unit: '' });
+                              } else {
+                                setNewParam({ ...newParam, unit: e.target.value });
+                              }
+                            }}
+                          >
+                            <option value="" disabled>Select unit...</option>
+                            {(newParam.type === 'Micro' ? MICRO_UNITS : CHEMICAL_UNITS).map(u => <option key={u} value={u}>{u}</option>)}
+                            <option value="__custom__">✏️ Custom unit...</option>
+                          </select>
+                          {!(newParam.type === 'Micro' ? MICRO_UNITS : CHEMICAL_UNITS).includes(newParam.unit) && newParam.unit !== '' && (
+                            <input style={{ flex: '1 1 120px' }} type="text" value={newParam.unit} onChange={e => setNewParam({ ...newParam, unit: e.target.value })} placeholder="Enter custom unit" required />
+                          )}
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
                           <button type="button" onClick={handleAddNewParam} className="btn btn-primary" style={{ padding: '0.3rem 0.8rem', fontSize: '0.85rem' }}>Save & Select</button>
@@ -965,30 +1007,67 @@ function Jobs() {
                       </div>
                     )}
 
-                    {/* Selected parameters pills */}
+                    {/* Selected parameters with editable units */}
                     <div>
                       <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.9rem' }}>Selected Parameters</label>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                        {selectedParams.length === 0 ? <span style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>None selected</span> : null}
-                        {selectedParams.map((p, index) => (
-                          <div key={index} style={{
-                            display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.3rem 0.8rem', borderRadius: '9999px', fontSize: '0.85rem', fontWeight: 500,
-                            backgroundColor: p.type === 'Micro' ? '#dcfce7' : '#e0f2fe',
-                            color: p.type === 'Micro' ? '#166534' : '#075985',
-                            border: `1px solid ${p.type === 'Micro' ? '#bbf7d0' : '#bae6fd'}`
-                          }}>
-                            {p.name} ({p.unit})
-                            {!editingJobId && (
-                              <button type="button" onClick={() => removeParam(index)} style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}>
-                                <X size={14} />
-                              </button>
-                            )}
-                          </div>
-                        ))}
-                      </div>
+                      {selectedParams.length === 0 ? <span style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>None selected</span> : (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start' }}>
+                          {selectedParams.map((p, index) => {
+                            const unitOptions = p.type === 'Micro' ? MICRO_UNITS : CHEMICAL_UNITS;
+                            const isCustomUnit = p.unit && !unitOptions.includes(p.unit);
+                            return (
+                              <div key={index} style={{
+                                display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 0.75rem',
+                                borderRadius: 'var(--radius-md)', fontSize: '0.85rem',
+                                backgroundColor: p.type === 'Micro' ? '#dcfce7' : '#e0f2fe',
+                                border: `1px solid ${p.type === 'Micro' ? '#bbf7d0' : '#bae6fd'}`
+                              }}>
+                                <span style={{ flex: '0 1 auto', fontWeight: 600, color: p.type === 'Micro' ? '#166534' : '#075985' }}>
+                                  {p.name}
+                                </span>
+                                <span style={{
+                                  fontSize: '0.7rem', fontWeight: 600, padding: '0.15rem 0.4rem', borderRadius: '4px',
+                                  backgroundColor: p.type === 'Micro' ? '#166534' : '#075985', color: 'white', textTransform: 'uppercase', letterSpacing: '0.05em'
+                                }}>
+                                  {p.type}
+                                </span>
+                                {!editingJobId ? (
+                                  <select
+                                    value={isCustomUnit ? '__custom__' : p.unit}
+                                    onChange={e => {
+                                      if (e.target.value === '__custom__') {
+                                        const custom = prompt('Enter custom unit:');
+                                        if (custom && custom.trim()) updateParamUnit(index, custom.trim());
+                                      } else {
+                                        updateParamUnit(index, e.target.value);
+                                      }
+                                    }}
+                                    style={{ width: 'auto', minWidth: '120px', maxWidth: '250px', padding: '0.3rem 0.5rem', fontSize: '0.82rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)', backgroundColor: 'white' }}
+                                  >
+                                    <option value="" disabled>Select unit...</option>
+                                    {unitOptions.map(u => <option key={u} value={u}>{u}</option>)}
+                                    <option value="__custom__">Custom unit...</option>
+                                    {isCustomUnit && <option value={p.unit}>{p.unit} (custom)</option>}
+                                  </select>
+                                ) : (
+                                  <span style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', fontWeight: 500 }}>{p.unit}</span>
+                                )}
+                                {!editingJobId && (
+                                  <button type="button" onClick={() => removeParam(index)} style={{ background: 'none', border: 'none', color: p.type === 'Micro' ? '#166534' : '#075985', cursor: 'pointer', padding: '0.2rem', display: 'flex', alignItems: 'center', opacity: 0.6 }}
+                                    onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                                    onMouseLeave={e => e.currentTarget.style.opacity = 0.6}
+                                  >
+                                    <X size={14} />
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
                       {selectedParams.length > 0 && (
                         <div style={{ marginTop: '0.8rem', fontSize: '0.9rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <Activity size={14} style={{ color: 'var(--color-text-muted)' }} /> 
+                          <Activity size={14} style={{ color: 'var(--color-text-muted)' }} />
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                             {selectedParams.some(p => p.type === 'Micro') && (
                               <span style={{ color: '#166534' }}>M</span>
@@ -1015,7 +1094,7 @@ function Jobs() {
             <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
               <div onClick={() => toggleSection('compliance')} style={{ padding: '1rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', backgroundColor: sections.compliance ? 'var(--color-surface-hover)' : 'transparent' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  {sections.compliance ? <ChevronDown size={18}/> : <ChevronRight size={18}/>}
+                  {sections.compliance ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
                   <span style={{ fontWeight: 600 }}>Compliance & Legal Information</span>
                 </div>
                 <span className="badge badge-secondary" style={{ fontSize: '0.75rem' }}>Important</span>
@@ -1044,7 +1123,7 @@ function Jobs() {
                 <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                   {/* Flow Type */}
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>Flow Type <span style={{color:'var(--color-danger)'}}>*</span></label>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>Flow Type <span style={{ color: 'var(--color-danger)' }}>*</span></label>
                     <div style={{ display: 'flex', gap: '0.75rem' }}>
                       {['PARALLEL', 'SEQUENTIAL'].map(ft => (
                         <button key={ft} type="button" onClick={() => {
@@ -1072,7 +1151,7 @@ function Jobs() {
                       <div>
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>Initial Department</label>
                         <div style={{ display: 'flex', gap: '0.75rem' }}>
-                          {[{val: 'micro', label: 'Initial: Microbiology'}, {val: 'chemical', label: 'Initial: Chemical'}].map(opt => (
+                          {[{ val: 'micro', label: 'Initial: Microbiology' }, { val: 'chemical', label: 'Initial: Chemical' }].map(opt => (
                             <button key={opt.val} type="button" onClick={() => setFirstDepartment(opt.val)} style={{
                               flex: 1, padding: '0.6rem 1rem', borderRadius: 'var(--radius-md)', cursor: 'pointer',
                               border: firstDepartment === opt.val ? '2px solid var(--color-primary)' : '1px solid var(--color-border)',
@@ -1102,10 +1181,10 @@ function Jobs() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', borderTop: '1px solid var(--color-border)', paddingTop: '1.25rem' }}>
                     {selectedParams.some(p => p.type === 'Micro') && (
                       <div>
-                        <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 600, fontSize: '0.9rem' }}>Microbiology Head <span style={{color:'var(--color-danger)'}}>*</span></label>
-                        <select 
-                          value={assignedMicroHead} 
-                          onChange={e => setAssignedMicroHead(e.target.value)} 
+                        <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 600, fontSize: '0.9rem' }}>Microbiology Head <span style={{ color: 'var(--color-danger)' }}>*</span></label>
+                        <select
+                          value={assignedMicroHead}
+                          onChange={e => setAssignedMicroHead(e.target.value)}
                           required
                           style={{ width: '100%' }}
                         >
@@ -1117,10 +1196,10 @@ function Jobs() {
                     )}
                     {selectedParams.some(p => p.type === 'Chemical') && (
                       <div>
-                        <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 600, fontSize: '0.9rem' }}>Chemical Analysis Head <span style={{color:'var(--color-danger)'}}>*</span></label>
-                        <select 
-                          value={assignedChemicalHead} 
-                          onChange={e => setAssignedChemicalHead(e.target.value)} 
+                        <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 600, fontSize: '0.9rem' }}>Chemical Analysis Head <span style={{ color: 'var(--color-danger)' }}>*</span></label>
+                        <select
+                          value={assignedChemicalHead}
+                          onChange={e => setAssignedChemicalHead(e.target.value)}
                           required
                           style={{ width: '100%' }}
                         >
@@ -1146,9 +1225,9 @@ function Jobs() {
       )}
 
       <div style={{ marginTop: '2rem' }}>
-        <JobLogTable 
-          jobs={jobs} 
-          title="All Client Sample Jobs" 
+        <JobLogTable
+          jobs={jobs}
+          title="All Client Sample Jobs"
           onDeleteJob={handleDeleteJob}
           onEditJob={handleEditJob}
           onReopen={(job) => navigate('/lab-head/jobs', { state: { reopenJob: job } })}
@@ -1167,24 +1246,24 @@ function Jobs() {
               <Activity size={32} />
               <h2 style={{ margin: 0, fontSize: '1.25rem' }}>Confirm Job Creation</h2>
             </div>
-            
+
             <p style={{ margin: '0 0 1.5rem 0', color: 'var(--color-text-main)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
-              {editingJobId 
-                ? `You are about to save changes to the sample job for ${formData.customer_name}.` 
+              {editingJobId
+                ? `You are about to save changes to the sample job for ${formData.customer_name}.`
                 : `You are about to log and distribute a new sample job for ${formData.customer_name}.\n\nThis will generate job codes and notify the relevant department heads immediately.`
               }
             </p>
 
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
-              <button 
-                className="btn" 
+              <button
+                className="btn"
                 onClick={() => setShowConfirmModal(false)}
                 style={{ border: '1px solid var(--color-primary)', color: 'var(--color-primary)', padding: '0.6rem 2rem', backgroundColor: 'transparent' }}
               >
                 Review Form
               </button>
-              <button 
-                className="btn btn-primary" 
+              <button
+                className="btn btn-primary"
                 onClick={executeSubmit}
                 style={{ padding: '0.6rem 2rem' }}
               >
@@ -1207,23 +1286,23 @@ function Jobs() {
               <Trash2 size={32} />
               <h2 style={{ margin: 0, fontSize: '1.25rem' }}>Confirm Deletion</h2>
             </div>
-            
+
             <p style={{ margin: '0 0 1.5rem 0', color: 'var(--color-text-main)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
               Are you sure you want to permanently delete this job and all associated reports?
-              <br/><br/>
+              <br /><br />
               <strong style={{ color: 'var(--color-danger)' }}>This action cannot be undone.</strong>
             </p>
 
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
-              <button 
-                className="btn" 
+              <button
+                className="btn"
                 onClick={() => setDeleteConfirmJobId(null)}
                 style={{ border: '1px solid var(--color-danger)', color: 'var(--color-danger)', padding: '0.6rem 2rem', backgroundColor: 'transparent' }}
               >
                 Cancel
               </button>
-              <button 
-                className="btn" 
+              <button
+                className="btn"
                 onClick={executeDelete}
                 style={{ padding: '0.6rem 2rem', backgroundColor: 'var(--color-danger)', color: 'white' }}
               >
@@ -1262,10 +1341,10 @@ function Audit() {
         <h1 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <FileText size={28} style={{ color: 'var(--color-primary)' }} /> Global Job Logs & Reports
         </h1>
-        <div style={{ 
-          backgroundColor: 'var(--color-surface-hover)', 
-          borderLeft: '4px solid var(--color-primary)', 
-          padding: '1rem 1.5rem', 
+        <div style={{
+          backgroundColor: 'var(--color-surface-hover)',
+          borderLeft: '4px solid var(--color-primary)',
+          padding: '1rem 1.5rem',
           borderRadius: 'var(--radius-md)',
           marginBottom: '2rem',
           display: 'flex',

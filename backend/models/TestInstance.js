@@ -28,7 +28,7 @@ const testInstanceSchema = new mongoose.Schema({
   assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   status: {
     type: String,
-    enum: ['PENDING', 'PENDING_HEAD_REVIEW', 'PENDING_LAB_HEAD_REVIEW', 'COMPLETED', 'REOPENED'],
+    enum: ['PENDING', 'PENDING_HEAD_REVIEW', 'COMPLETED', 'REOPENED'],
     default: 'PENDING'
   },
   results: [resultParameterSchema],

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const BugReport = require('../models/BugReport');
 const { protect } = require('../middlewares/authMiddleware');
+const { sendBugReportEmail } = require('../utils/brevoMailer');
 
 // Submit a bug report (any authenticated user)
 router.post('/', protect, async (req, res) => {
@@ -21,6 +22,12 @@ router.post('/', protect, async (req, res) => {
     });
 
     await report.save();
+
+    // Fire-and-forget email notification
+    sendBugReportEmail(report, req.user).catch(err =>
+      console.error('Bug report email failed (non-blocking):', err.message)
+    );
+
     res.status(201).json({ message: 'Report submitted successfully.', report });
   } catch (err) {
     console.error('Error submitting bug report:', err);

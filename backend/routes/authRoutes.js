@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Otp = require('../models/Otp');
 const jwt = require('jsonwebtoken');
 const { protect } = require('../middlewares/authMiddleware');
+const { sendOtpEmail } = require('../utils/brevoMailer');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1d' });
@@ -53,12 +55,67 @@ router.put('/change-password', protect, async (req, res) => {
   }
 });
 
-// @route   POST /api/auth/otp-recovery
-// @desc    Mock OTP login for forgotten password scenario
-router.post('/otp-recovery', async (req, res) => {
-  // In a real scenario, this would verify an OTP and let the user reset their password.
-  // For now, we return a mock success message.
-  res.json({ message: 'OTP verified. Proceed to reset password.' });
+// @route   POST /api/auth/request-otp
+// @desc    Send a 6-digit OTP to the user's registered email
+router.post('/request-otp', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ message: 'Email is required.' });
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'No account found with that email.' });
+
+    // Generate 6-digit OTP
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Upsert: overwrite any existing OTP for this email
+    await Otp.findOneAndUpdate(
+      { email },
+      { email, code, createdAt: new Date() },
+      { upsert: true, new: true }
+    );
+
+    // Send OTP via Brevo
+    await sendOtpEmail(user.email, user.name, code);
+
+    res.json({ message: 'OTP sent to your email. It expires in 5 minutes.' });
+  } catch (err) {
+    console.error('OTP request error:', err);
+    res.status(500).json({ message: 'Failed to send OTP. Please try again.' });
+  }
+});
+
+// @route   POST /api/auth/verify-otp
+// @desc    Verify OTP and log the user in directly
+router.post('/verify-otp', async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) return res.status(400).json({ message: 'Email and OTP are required.' });
+
+    const record = await Otp.findOne({ email, code: otp });
+    if (!record) return res.status(401).json({ message: 'Invalid or expired OTP.' });
+
+    // OTP is valid — delete it so it can't be reused
+    await Otp.deleteOne({ _id: record._id });
+
+    // Find user and issue JWT (direct login, no password reset)
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found.' });
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      department: user.department,
+      branch: user.branch,
+      requiresPasswordChange: false,
+      token: generateToken(user._id),
+    });
+  } catch (err) {
+    console.error('OTP verify error:', err);
+    res.status(500).json({ message: 'OTP verification failed.' });
+  }
 });
 
 module.exports = router;
