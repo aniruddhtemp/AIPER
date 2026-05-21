@@ -10,9 +10,10 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+const allowedOrigin = process.env.FRONTEND_URL || '*';
 const io = new Server(server, {
   cors: {
-    origin: '*', // Allow all origins for dev
+    origin: allowedOrigin,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
   }
 });
@@ -31,7 +32,7 @@ io.on('connection', (socket) => {
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: allowedOrigin }));
 app.use(express.json());
 
 // Routes
@@ -48,8 +49,9 @@ app.use('/api/bug-reports', require('./routes/bugReportRoutes'));
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB Atlas');
-    server.listen(process.env.PORT, () => {
-      console.log(`Server running on port ${process.env.PORT}`);
+    const PORT = process.env.PORT || 5000;
+    server.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server running on port ${PORT}`);
       // Drop legacy unique index on sampleSerial if it exists (allows retests to share serial)
       mongoose.connection.db.collection('jobs').dropIndex('sampleSerial_1').catch(() => {});
     });

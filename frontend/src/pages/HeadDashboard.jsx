@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import { Trash2, Edit, Plus, Check, FileText, Activity, Users, Settings, Clock, CheckCircle, ClipboardCheck, RotateCcw, ChevronDown, ChevronRight, ArrowRightLeft, Send, PackageCheck } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import API_URL from '../utils/api';
 
 import JobLogTable from '../components/JobLogTable';
 import { fetchWithCache, invalidateCache, CACHE_KEYS } from '../utils/cache';
 import Spinner from '../components/Spinner';
 import { useSocket } from '../context/SocketContext';
+import API_URL from '../utils/api';
 
 function Dashboard() {
   const { user } = useContext(AuthContext);
@@ -64,11 +66,11 @@ function Dashboard() {
         }
 
         const [jobsRes, instancesRes, usersRes, inTransfersRes, outTransfersRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/jobs'),
-          axios.get('http://localhost:5000/api/tests/instances'),
-          axios.get('http://localhost:5000/api/users'),
-          axios.get('http://localhost:5000/api/sample-transfers/incoming', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
-          axios.get('http://localhost:5000/api/sample-transfers/outgoing', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+          axios.get(`${API_URL}/api/jobs`),
+          axios.get(`${API_URL}/api/tests/instances`),
+          axios.get(`${API_URL}/api/users`),
+          axios.get(`${API_URL}/api/sample-transfers/incoming`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
+          axios.get(`${API_URL}/api/sample-transfers/outgoing`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
         ]);
 
         computeStats(jobsRes.data, instancesRes.data, inTransfersRes.data.length, outTransfersRes.data.length);
@@ -197,7 +199,7 @@ function Assistants() {
   const fetchUsers = async () => {
     try {
       await fetchWithCache(
-        'http://localhost:5000/api/users',
+        `${API_URL}/api/users`,
         CACHE_KEYS.USERS,
         setUsers
       );
@@ -223,10 +225,10 @@ function Assistants() {
     setError(''); setSuccess('');
     try {
       if (editUserId) {
-        await axios.put(`http://localhost:5000/api/users/${editUserId}`, formData);
+        await axios.put(`${API_URL}/api/users/${editUserId}`, formData);
         setSuccess('Assistant updated successfully.');
       } else {
-        const res = await axios.post('http://localhost:5000/api/users', { ...formData, role: 'ASSISTANT', department: user.department, branch: user.branch });
+        const res = await axios.post(`${API_URL}/api/users`, { ...formData, role: 'ASSISTANT', department: user.department, branch: user.branch });
         setSuccess(`Assistant created successfully. Password: ${res.data.temporaryPassword}`);
       }
       setFormData({ name: '', email: '', phone: '', password: '' });
@@ -248,7 +250,7 @@ function Assistants() {
   const handleDelete = async () => {
     if (!userToDelete) return;
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userToDelete._id}`);
+      await axios.delete(`${API_URL}/api/users/${userToDelete._id}`);
       setUserToDelete(null);
       invalidateCache(CACHE_KEYS.USERS);
       fetchUsers();
@@ -369,7 +371,7 @@ function Dispatcher() {
 
   const fetchJobs = () => {
     const dept = user?.department ? user.department.toLowerCase() : '';
-    fetchWithCache('http://localhost:5000/api/jobs', CACHE_KEYS.JOBS,
+    fetchWithCache(`${API_URL}/api/jobs`, CACHE_KEYS.JOBS,
       (data) => setJobs(data.filter(j => {
         const dKey = dept === 'chemical' ? 'chemical' : dept;
         const dist = j.distribution[dKey];
@@ -381,7 +383,7 @@ function Dispatcher() {
 
   useEffect(() => {
     const dept = user?.department ? user.department.toLowerCase() : '';
-    fetchWithCache('http://localhost:5000/api/users', CACHE_KEYS.USERS, 
+    fetchWithCache(`${API_URL}/api/users`, CACHE_KEYS.USERS, 
       (data) => setAssistants(data.filter(u => u.role === 'ASSISTANT' && u.department === user.department))
     ).catch(console.error);
 
@@ -411,8 +413,8 @@ function Dispatcher() {
 
   const fetchTransfers = async () => {
     try {
-      const p1 = fetchWithCache('http://localhost:5000/api/sample-transfers/incoming', CACHE_KEYS.TRANSFERS_IN, setIncomingTransfers, { Authorization: `Bearer ${localStorage.getItem('token')}` });
-      const p2 = fetchWithCache('http://localhost:5000/api/sample-transfers/outgoing', CACHE_KEYS.TRANSFERS_OUT, setOutgoingJobs, { Authorization: `Bearer ${localStorage.getItem('token')}` });
+      const p1 = fetchWithCache(`${API_URL}/api/sample-transfers/incoming`, CACHE_KEYS.TRANSFERS_IN, setIncomingTransfers, { Authorization: `Bearer ${localStorage.getItem('token')}` });
+      const p2 = fetchWithCache(`${API_URL}/api/sample-transfers/outgoing`, CACHE_KEYS.TRANSFERS_OUT, setOutgoingJobs, { Authorization: `Bearer ${localStorage.getItem('token')}` });
       await Promise.all([p1, p2]);
     } catch (err) {
       console.error('Error fetching transfers:', err);
@@ -465,7 +467,7 @@ function Dispatcher() {
         assignedTo: assignments[`${job._id}-${p.parameterId._id}`]
       }));
 
-      await axios.post('http://localhost:5000/api/tests/instances', {
+      await axios.post(`${API_URL}/api/tests/instances`, {
         jobId: job._id,
         deadline,
         assignments: assignmentList
@@ -478,7 +480,7 @@ function Dispatcher() {
       // Refresh jobs list
       invalidateCache(CACHE_KEYS.JOBS);
       const dept = user?.department ? user.department.toLowerCase() : '';
-      const res = await axios.get('http://localhost:5000/api/jobs');
+      const res = await axios.get(`${API_URL}/api/jobs`);
       setJobs(res.data.filter(j => {
         const dKey = dept === 'chemical' ? 'chemical' : dept;
         const dist = j.distribution[dKey];
@@ -523,13 +525,13 @@ function Dispatcher() {
     
     try {
       if (type === 'send') {
-        await axios.post('http://localhost:5000/api/sample-transfers', { jobId: id }, {
+        await axios.post(`${API_URL}/api/sample-transfers`, { jobId: id }, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         setSuccess('Sample hand-over recorded! The other department has been notified.');
         setOutgoingJobs(prev => prev.filter(j => j._id !== id));
       } else if (type === 'receive') {
-        await axios.put(`http://localhost:5000/api/sample-transfers/${id}/receive`, {}, {
+        await axios.put(`${API_URL}/api/sample-transfers/${id}/receive`, {}, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
         setSuccess('Sample receipt confirmed! The job is now available in your dispatcher.');
@@ -851,7 +853,7 @@ function ReviewQueue() {
   const fetchReviewItems = async () => {
     try {
       await fetchWithCache(
-        'http://localhost:5000/api/tests/instances',
+        `${API_URL}/api/tests/instances`,
         CACHE_KEYS.INSTANCES,
         (data) => setInstances(data.filter(i => i.status === 'PENDING_HEAD_REVIEW'))
       );
@@ -865,7 +867,7 @@ function ReviewQueue() {
   useEffect(() => {
     fetchReviewItems();
     // Fetch assistants in this department for the analyst dropdown
-    fetchWithCache('http://localhost:5000/api/users', CACHE_KEYS.USERS,
+    fetchWithCache(`${API_URL}/api/users`, CACHE_KEYS.USERS,
       (data) => setAssistants(data.filter(u => u.role === 'ASSISTANT' && u.department === user.department))
     ).catch(console.error);
   }, []);
@@ -887,7 +889,7 @@ function ReviewQueue() {
 
   const handleApprove = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/tests/instances/${id}/review`, { action: 'APPROVE' });
+      await axios.put(`${API_URL}/api/tests/instances/${id}/review`, { action: 'APPROVE' });
       setSuccess('Approved and Completed. Report Generated.');
       invalidateCache(CACHE_KEYS.INSTANCES);
       fetchReviewItems();
@@ -948,7 +950,7 @@ function ReviewQueue() {
     }
 
     try {
-      await axios.put(`http://localhost:5000/api/tests/instances/${id}/review`, {
+      await axios.put(`${API_URL}/api/tests/instances/${id}/review`, {
         action: 'REASSIGN',
         note: reassignNote,
         selectedParams: selected
@@ -1207,8 +1209,8 @@ function Audit() {
       }
 
       const [resInst, resJobs] = await Promise.all([
-        axios.get('http://localhost:5000/api/tests/instances'),
-        axios.get('http://localhost:5000/api/jobs')
+        axios.get(`${API_URL}/api/tests/instances`),
+        axios.get(`${API_URL}/api/jobs`)
       ]);
       sessionStorage.setItem(CACHE_KEYS.INSTANCES, JSON.stringify(resInst.data));
       sessionStorage.setItem(CACHE_KEYS.JOBS, JSON.stringify(resJobs.data));

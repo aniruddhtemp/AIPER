@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react';
+﻿import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Mail, ArrowRight, Activity, Eye, EyeOff, KeyRound, ArrowLeft } from 'lucide-react';
 import axios from 'axios';
 import logo from '../assets/Acropolis20Logo.png';
+import API_URL from '../utils/api';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -42,7 +43,7 @@ export default function Login() {
   const handleChangePassword = async (e) => {
     e.preventDefault();
     try {
-      await axios.put('http://localhost:5000/api/auth/change-password', { newPassword });
+      await axios.put(`${API_URL}/api/auth/change-password`, { newPassword });
       const updatedUser = { ...JSON.parse(localStorage.getItem('user')), requiresPasswordChange: false };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       redirectRole(updatedUser.role);
@@ -82,7 +83,7 @@ export default function Login() {
     setOtpMessage('');
     setOtpLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/request-otp', { email: otpEmail });
+      const res = await axios.post(`${API_URL}/api/auth/request-otp`, { email: otpEmail });
       setOtpMessage(res.data.message);
       setOtpMode('verify');
       startCountdown();
@@ -98,7 +99,7 @@ export default function Login() {
     setError('');
     setOtpLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/verify-otp', { email: otpEmail, otp: otpCode });
+      const res = await axios.post(`${API_URL}/api/auth/verify-otp`, { email: otpEmail, otp: otpCode });
       // Store user + token and redirect (direct login)
       const userData = res.data;
       localStorage.setItem('token', userData.token);

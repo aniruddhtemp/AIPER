@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Trash2, Edit, FileText, Search, ChevronDown, ChevronRight, Activity, Users as UsersIcon, Settings, Clock, CheckCircle } from 'lucide-react';
+import API_URL from '../utils/api';
 
 import JobLogTable from '../components/JobLogTable';
 import { AuthContext } from '../context/AuthContext';
 import { fetchWithCache, invalidateCache, CACHE_KEYS } from '../utils/cache';
 import Spinner from '../components/Spinner';
+import API_URL from '../utils/api';
 
 function Dashboard() {
   const { user } = useContext(AuthContext);
@@ -59,9 +61,9 @@ function Dashboard() {
         }
 
         const [jobsRes, instancesRes, usersRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/jobs'),
-          axios.get('http://localhost:5000/api/tests/instances'),
-          axios.get('http://localhost:5000/api/users')
+          axios.get(`${API_URL}/api/jobs`),
+          axios.get(`${API_URL}/api/tests/instances`),
+          axios.get(`${API_URL}/api/users`)
         ]);
 
         computeStats(jobsRes.data, instancesRes.data, usersRes.data);
@@ -250,7 +252,7 @@ function UsersPage() {
   const fetchUsers = async () => {
     try {
       await fetchWithCache(
-        'http://localhost:5000/api/users',
+        `${API_URL}/api/users`,
         CACHE_KEYS.USERS,
         setUsers
       );
@@ -279,7 +281,7 @@ function UsersPage() {
     e.preventDefault();
     setError(''); setSuccess('');
     try {
-      const res = await axios.post('http://localhost:5000/api/users', { ...formData, role: 'LAB_HEAD' });
+      const res = await axios.post(`${API_URL}/api/users`, { ...formData, role: 'LAB_HEAD' });
       setSuccess(`Lab Head created successfully. Temporary password is: ${res.data.temporaryPassword}`);
       setFormData({ name: '', email: '', phone: '', password: '' });
       setShowForm(false);
@@ -399,8 +401,8 @@ function Audit() {
       if (cachedJobs) setJobs(JSON.parse(cachedJobs));
 
       const [resInst, resJobs] = await Promise.all([
-        axios.get('http://localhost:5000/api/tests/instances'),
-        axios.get('http://localhost:5000/api/jobs')
+        axios.get(`${API_URL}/api/tests/instances`),
+        axios.get(`${API_URL}/api/jobs`)
       ]);
       sessionStorage.setItem(CACHE_KEYS.INSTANCES, JSON.stringify(resInst.data));
       sessionStorage.setItem(CACHE_KEYS.JOBS, JSON.stringify(resJobs.data));

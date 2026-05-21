@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { Routes, Route, useLocation, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Trash2, Edit, Activity, Users as UsersIcon, Clock, CheckCircle, FileText, ClipboardCheck, RotateCcw, ChevronDown, ChevronRight, X, Calendar, ArrowRightLeft } from 'lucide-react';
@@ -8,6 +8,7 @@ import { AuthContext } from '../context/AuthContext';
 import { fetchWithCache, invalidateCache, CACHE_KEYS } from '../utils/cache';
 import Spinner from '../components/Spinner';
 import { useSocket } from '../context/SocketContext';
+import API_URL from '../utils/api';
 
 function Dashboard() {
   const { user } = useContext(AuthContext);
@@ -58,9 +59,9 @@ function Dashboard() {
 
         // Fetch fresh in background
         const [jobsRes, instancesRes, usersRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/jobs'),
-          axios.get('http://localhost:5000/api/tests/instances'),
-          axios.get('http://localhost:5000/api/users')
+          axios.get(`${API_URL}/api/jobs`),
+          axios.get(`${API_URL}/api/tests/instances`),
+          axios.get(`${API_URL}/api/users`)
         ]);
         sessionStorage.setItem(CACHE_KEYS.JOBS, JSON.stringify(jobsRes.data));
         sessionStorage.setItem(CACHE_KEYS.INSTANCES, JSON.stringify(instancesRes.data));
@@ -235,7 +236,7 @@ function UsersPage() {
   const fetchUsers = async () => {
     try {
       await fetchWithCache(
-        'http://localhost:5000/api/users',
+        `${API_URL}/api/users`,
         CACHE_KEYS.USERS,
         (data) => setUsers(data.filter(u => u.role !== 'ADMIN' && u.role !== 'LAB_HEAD'))
       );
@@ -257,10 +258,10 @@ function UsersPage() {
     setError(''); setSuccess('');
     try {
       if (editUserId) {
-        await axios.put(`http://localhost:5000/api/users/${editUserId}`, formData);
+        await axios.put(`${API_URL}/api/users/${editUserId}`, formData);
         setSuccess('User updated successfully.');
       } else {
-        const res = await axios.post('http://localhost:5000/api/users', formData);
+        const res = await axios.post(`${API_URL}/api/users`, formData);
         setSuccess(`User created successfully. Temporary password is: ${res.data.temporaryPassword}`);
       }
       setFormData({ name: '', email: '', phone: '', role: 'HEAD', department: 'Micro', branch: 'Main Branch', password: '' });
@@ -279,7 +280,7 @@ function UsersPage() {
 
   const confirmDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/${id}`);
+      await axios.delete(`${API_URL}/api/users/${id}`);
       invalidateCache(CACHE_KEYS.USERS);
       fetchUsers();
     } catch (err) {
@@ -476,7 +477,7 @@ function Jobs() {
     e.preventDefault();
     if (!newParam.name || !newParam.unit) return alert('Name and Unit are required');
     try {
-      const res = await axios.post('http://localhost:5000/api/parameters', newParam);
+      const res = await axios.post(`${API_URL}/api/parameters`, newParam);
       setSelectedParams([...selectedParams, res.data]);
       setShowAddParam(false);
       setNewParam({ name: '', type: 'Micro', unit: 'mg/L' });
@@ -498,7 +499,7 @@ function Jobs() {
     e.stopPropagation(); // Don't trigger the row click (add)
     if (!window.confirm(`Delete "${param.name}" from the parameter library permanently?`)) return;
     try {
-      await axios.delete(`http://localhost:5000/api/parameters/${param._id}`);
+      await axios.delete(`${API_URL}/api/parameters/${param._id}`);
       // Remove from search results
       setSearchResults(prev => prev.filter(p => p._id !== param._id));
       // Also remove from selected if it was picked
@@ -511,7 +512,7 @@ function Jobs() {
   const fetchJobs = async () => {
     try {
       await fetchWithCache(
-        'http://localhost:5000/api/jobs',
+        `${API_URL}/api/jobs`,
         CACHE_KEYS.JOBS,
         setJobs
       );
@@ -520,7 +521,7 @@ function Jobs() {
 
   const fetchHeads = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/users');
+      const res = await axios.get(`${API_URL}/api/users`);
       const allHeads = res.data.filter(u => u.role === 'HEAD');
       setHeads(allHeads);
 
@@ -534,7 +535,7 @@ function Jobs() {
 
   const fetchNextSerial = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/jobs/next-sample-id');
+      const res = await axios.get(`${API_URL}/api/jobs/next-sample-id`);
       setNextSerial(res.data);
       if (!reopenParentId) {
         setFormData(prev => ({ ...prev, sample_id: res.data.padded }));
@@ -553,7 +554,7 @@ function Jobs() {
     const delayDebounceFn = setTimeout(async () => {
       if (searchTerm.trim()) {
         try {
-          const res = await axios.get(`http://localhost:5000/api/parameters?search=${searchTerm}`);
+          const res = await axios.get(`${API_URL}/api/parameters?search=${searchTerm}`);
           setSearchResults(res.data);
         } catch (err) { console.error(err); }
       } else {
@@ -719,14 +720,14 @@ function Jobs() {
 
       if (editingJobId) {
         // Editing existing job
-        await axios.put(`http://localhost:5000/api/jobs/${editingJobId}`, payload);
+        await axios.put(`${API_URL}/api/jobs/${editingJobId}`, payload);
       } else if (reopenParentId) {
         // Reopening / retesting
         payload.reopenReason = formData.reopenReason;
-        await axios.post(`http://localhost:5000/api/jobs/${reopenParentId}/retest`, payload);
+        await axios.post(`${API_URL}/api/jobs/${reopenParentId}/retest`, payload);
       } else {
         // Creating new job
-        await axios.post('http://localhost:5000/api/jobs', payload);
+        await axios.post(`${API_URL}/api/jobs`, payload);
       }
 
       setShowForm(false);
@@ -754,7 +755,7 @@ function Jobs() {
   const executeDelete = async () => {
     if (!deleteConfirmJobId) return;
     try {
-      await axios.delete(`http://localhost:5000/api/jobs/${deleteConfirmJobId}`);
+      await axios.delete(`${API_URL}/api/jobs/${deleteConfirmJobId}`);
       invalidateCache(CACHE_KEYS.JOBS);
       fetchJobs();
       setDeleteConfirmJobId(null);
@@ -1325,7 +1326,7 @@ function Audit() {
 
   const fetchData = async () => {
     try {
-      await fetchWithCache('http://localhost:5000/api/jobs', CACHE_KEYS.JOBS, setJobs);
+      await fetchWithCache(`${API_URL}/api/jobs`, CACHE_KEYS.JOBS, setJobs);
     } catch (err) {
       console.error(err);
     } finally {

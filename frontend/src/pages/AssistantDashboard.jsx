@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Play, Check, Clock, AlertTriangle, RotateCcw, Calendar } from 'lucide-react';
 import { fetchWithCache, invalidateCache, CACHE_KEYS } from '../utils/cache';
 import Spinner from '../components/Spinner';
 import { useSocket } from '../context/SocketContext';
+import API_URL from '../utils/api';
 
 export default function AssistantDashboard() {
   const [tasks, setTasks] = useState([]);
@@ -19,7 +20,7 @@ export default function AssistantDashboard() {
   const fetchTasks = async () => {
     try {
       await fetchWithCache(
-        'http://localhost:5000/api/tests/instances',
+        `${API_URL}/api/tests/instances`,
         CACHE_KEYS.MY_TASKS,
         setTasks
       );
@@ -107,7 +108,7 @@ export default function AssistantDashboard() {
     setResultsData(updated);
 
     try {
-      await axios.put(`http://localhost:5000/api/tests/instances/${activeTask._id}/save-progress`, {
+      await axios.put(`${API_URL}/api/tests/instances/${activeTask._id}/save-progress`, {
         results: updated
       });
       setSuccess(`Parameter "${updated[index].name}" saved!`);
@@ -171,7 +172,7 @@ export default function AssistantDashboard() {
     setResultsData(updatedResults);
 
     try {
-      await axios.put(`http://localhost:5000/api/tests/instances/${activeTask._id}/save-progress`, {
+      await axios.put(`${API_URL}/api/tests/instances/${activeTask._id}/save-progress`, {
         results: updatedResults,
         testingPeriod: {
           startDate: testingPeriod.startDate || null,
@@ -233,7 +234,7 @@ export default function AssistantDashboard() {
     setIsSubmitting(true);
 
     try {
-      await axios.put(`http://localhost:5000/api/tests/instances/${activeTask._id}/results`, {
+      await axios.put(`${API_URL}/api/tests/instances/${activeTask._id}/results`, {
         results: resultsData,
         testingPeriod: {
           startDate: testingPeriod.startDate || null,

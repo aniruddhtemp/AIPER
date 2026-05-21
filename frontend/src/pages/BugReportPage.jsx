@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+﻿import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Bug, Lightbulb, Send, CheckCircle, ArrowLeft, AlertTriangle } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
+import API_URL from '../utils/api';
 
 const TYPES = [
   { id: 'BUG', label: 'Bug Report', icon: <Bug size={32} />, color: 'var(--color-danger)', desc: 'Something is broken, crashing, or behaving unexpectedly.' },
@@ -39,7 +40,7 @@ export default function BugReportPage() {
     setIsSubmitting(true);
 
     try {
-      await axios.post('http://localhost:5000/api/bug-reports', {
+      await axios.post(`${API_URL}/api/bug-reports`, {
         type: selectedType,
         severity,
         description: description.trim(),
